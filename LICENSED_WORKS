@@ -1,0 +1,14 @@
+This software uses the following works:
+
+The GNU libc manual for the argument parsing in the argparse.c and argparse.h
+files:
+<https://www.gnu.org/software/libc/manual/html_node/Argp-Example-4.html>
+Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
+    <https://fsf.org/>
+GNU Free Documentation License v1.3 (FDL-1.3_LICENSE)
+
+
+Makefile:
+<https://github.com/mbcrawfo/GenericMakefile>
+Copyright (c) 2014 Michael Crawford
+The MIT License (MIT_LICENSE)
