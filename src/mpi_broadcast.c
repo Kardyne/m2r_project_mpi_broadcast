@@ -21,10 +21,13 @@
 
 #include "argparse.h"
 #include "log.h"
+#include "mpi_common.h"
+#include "ring.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <mpi.h>
 
 void update_log_level(struct arguments *arguments)
 {
@@ -39,11 +42,16 @@ void update_log_level(struct arguments *arguments)
 	}
 }
 
+
+
 int main(int argc, char **argv)
 {
 	struct arguments arguments;
 	argparse(argc, argv, &arguments);
 	update_log_level(&arguments);
-	log_msg(LOG_INFO, "Toplogy = [%s]", arguments.topology);
+	mpi_common_init(argc, argv);
+	if (!rank)
+		log_msg(LOG_INFO, "Topology = [%s]", arguments.topology);
+	MPI_Finalize();
 	exit(EXIT_SUCCESS);
 }
