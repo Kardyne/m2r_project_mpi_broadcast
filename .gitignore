@@ -1,0 +1,6 @@
+.vscode/*
+.release_time
+.debug_time
+bin/*
+build/*
+mpi_broadcast
