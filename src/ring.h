@@ -24,6 +24,6 @@
 
 #include <stdint.h>
 
-void ring_broadcast(uint32_t size, uint32_t count);
+void ring_broadcast(uint32_t msg_size);
 
 #endif

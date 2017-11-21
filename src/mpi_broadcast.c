@@ -42,16 +42,17 @@ void update_log_level(struct arguments *arguments)
 	}
 }
 
-
-
 int main(int argc, char **argv)
 {
 	struct arguments arguments;
 	argparse(argc, argv, &arguments);
 	update_log_level(&arguments);
+	srand(arguments.seed+rank);
 	mpi_common_init(argc, argv);
-	if (!rank)
-		log_msg(LOG_INFO, "Topology = [%s]", arguments.topology);
+	if(!rank)
+		MPI_LOG(LOG_INFO, "Topology = [%s]", arguments.topology);
+	if(!strcmp(arguments.topology, "ring"))
+		ring_broadcast(arguments.msg_size);
 	MPI_Finalize();
 	exit(EXIT_SUCCESS);
 }
