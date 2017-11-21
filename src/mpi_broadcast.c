@@ -24,14 +24,13 @@
 #include "mpi_common.h"
 #include "ring.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <mpi.h>
 
 void update_log_level(struct arguments *arguments)
 {
-	int8_t log_change = arguments->verbose - arguments->quiet;
+	int8_t log_change = arguments->quiet - arguments->verbose;
 	int8_t new_log_level = runtime_log_level + log_change;
 	if(new_log_level >= LOG_FATAL) {
 		runtime_log_level = LOG_FATAL;
