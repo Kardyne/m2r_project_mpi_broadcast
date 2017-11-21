@@ -20,6 +20,7 @@
 ******************************************************************************/
 
 #include <argp.h>
+#include <stdlib.h>
 #include "argparse.h"
 
 const char *argp_program_version =
@@ -38,6 +39,9 @@ static char args_doc[] = "TOPOLOGY";
 
 /* The options we understand. */
 static struct argp_option options[] = {
+	{0,          'n', "SIZE",  0,
+		"Broadcasts a message of SIZE bytes (default 0)", 0},
+	{"seed",     's', 0,       0, "Seed (default 0)", 0},
 	{"verbose",  'v', 0,       0, "Increase verbosity", 0},
 	{"quiet",    'q', 0,       0, "Decrease verbosity", 0},
 	{0}
@@ -51,6 +55,12 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
 	struct arguments *arguments = state->input;
 
 	switch (key) {
+	case 'n':
+		arguments->msg_size = atol(arg);
+		break;
+	case 's':
+		arguments->seed = atol(arg);
+		break;
   	case 'q':
     		arguments->quiet += 1;
     		break;
@@ -85,6 +95,8 @@ int argparse(int argc, char **argv, struct arguments *arguments)
 	/* Default values. */
 	arguments->quiet = 0;
 	arguments->verbose = 0;
+	arguments->msg_size = 0;
+	arguments->seed = 0;
 
 	/* Parse our arguments; every option seen by parse_opt will be
    	reflected in arguments. */
