@@ -31,4 +31,6 @@ int rank, size;
 
 void mpi_common_init(int argc, char **argv);
 
+void gen_random_stream(char *stream, uint32_t size);
+
 #endif

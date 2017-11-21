@@ -19,7 +19,11 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
+#include "log.h"
+#include "mpi_common.h"
 #include <mpi.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 int rank = -1, size = -1;
 
@@ -30,4 +34,13 @@ void mpi_common_init(int argc, char **argv)
 	MPI_Init(&argc, &argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
+}
+
+void gen_random_stream(char *stream, uint32_t size)
+{
+	MPI_LOG(LOG_DEBUG, "Generating random bytestream of size %lu", size);
+	for(uint32_t i=0; i<size; i++) {
+		stream[i] = rand();
+	}
+	MPI_LOG(LOG_TRACE, "Generated : [ %s ]", stream);
 }
