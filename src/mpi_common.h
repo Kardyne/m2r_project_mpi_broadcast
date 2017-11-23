@@ -39,7 +39,7 @@ operation sum(char *result, char *array, uint32_t msg_size);
 void allreduce(allreduce_sendrecv sendrecv, operation op,
 	uint32_t msg_size);
 
-void mpi_common_init(int argc, char **argv);
+void mpi_common_init(int *argc, char ***argv);
 
 void gen_random_stream(char *stream, uint32_t size);
 

@@ -76,11 +76,11 @@ void allreduce(allreduce_sendrecv sendrecv, operation op,
 	free(recvbuf);
 }
 
-void mpi_common_init(int argc, char **argv)
+void mpi_common_init(int *argc, char ***argv)
 {
 	if(rank > -1 || size > -1)
 		return;
-	MPI_Init(&argc, &argv);
+	MPI_Init(argc, argv);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 }
