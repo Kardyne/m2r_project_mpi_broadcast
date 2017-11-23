@@ -32,7 +32,8 @@ static char doc[] =
 This is a student project whose only aim is to better understand the MPI \
 algorithms.\n\n\
 TOPOLOGY may take any of these values:\n\
-    ring";
+    ring\n\
+    grid2d";
 
 /* A description of the arguments we accept. */
 static char args_doc[] = "TOPOLOGY";
