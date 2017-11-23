@@ -22,7 +22,7 @@
 
 #### PROJECT SETTINGS ####
 # The name of the executable to be created
-BIN_NAME := mpi_broadcast
+BIN_NAME := mpi_allreduce
 # Compiler used
 CC = mpicc
 # Extension of source files used in the project

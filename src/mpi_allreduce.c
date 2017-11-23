@@ -50,8 +50,12 @@ int main(int argc, char **argv)
 	mpi_common_init(argc, argv);
 	if(!rank)
 		MPI_LOG(LOG_INFO, "Topology = [%s]", arguments.topology);
-	if(!strcmp(arguments.topology, "ring"))
-		ring_broadcast(arguments.msg_size);
+	if(!strcmp(arguments.topology, "ring")) {
+		allreduce(ring_sendrecv, sum, arguments.msg_size);
+	} else if(!rank) {
+		MPI_LOG(LOG_ERROR, "[%s] topology not implmented, exiting.",
+			arguments.topology);
+	}
 	MPI_Finalize();
 	exit(EXIT_SUCCESS);
 }
