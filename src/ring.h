@@ -22,8 +22,10 @@
 #ifndef RING_H
 #define RING_H 1
 
+#include "mpi_common.h"
 #include <stdint.h>
 
-void ring_broadcast(uint32_t msg_size);
+allreduce_sendrecv ring_sendrecv(char* sendbuf, uint32_t sendcount,
+	char* recvbuf, uint32_t recvcount);
 
 #endif
