@@ -24,7 +24,7 @@
 # The name of the executable to be created
 BIN_NAME := mpi_allreduce
 # Compiler used
-CC = mpicc
+CC = smpicc
 # Extension of source files used in the project
 SRC_EXT = c
 # Path to the source directory, relative to the makefile
