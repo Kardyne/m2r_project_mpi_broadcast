@@ -9,3 +9,8 @@ various network topologies, followed by an implementation and a testing
 part which will be used to confirm or disprove the analysis.
 Any discrepancy found will be investigated to find its source and
 explain the differences encountered.
+
+Usage:
+
+Compile with make debug or make release
+Execute with run.sh number_of_hosts topology
