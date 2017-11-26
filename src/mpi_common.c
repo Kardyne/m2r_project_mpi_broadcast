@@ -42,14 +42,14 @@ double timeval_diff_s(struct timeval *tv1, struct timeval *tv2)
 		(double) (tv2->tv_sec - tv1->tv_sec);
 }
 
-operation sum(char *result, char *array, uint32_t msg_size)
+void sum(char *result, char *array, uint32_t msg_size)
 {
 	for(uint32_t i=0; i<msg_size; i++) {
 		result[i] += array[i];
 	}
 }
 
-void allreduce(allreduce_sendrecv sendrecv, operation op,
+void allreduce(allreduce_sendrecv *sendrecv, operation *op,
 	uint32_t msg_size)
 {
 	if(rank<0)

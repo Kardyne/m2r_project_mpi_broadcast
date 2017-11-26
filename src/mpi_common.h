@@ -30,13 +30,13 @@
 
 int32_t rank, size;
 
-typedef void (*allreduce_sendrecv)(char*, uint32_t, char*, uint32_t);
+typedef void allreduce_sendrecv(char*, uint32_t, char*, uint32_t);
 
-typedef void (*operation)(char*, char*, uint32_t msg_size);
+typedef void operation(char*, char*, uint32_t msg_size);
 
-operation sum(char *result, char *array, uint32_t msg_size);
+void sum(char *result, char *array, uint32_t msg_size);
 
-void allreduce(allreduce_sendrecv sendrecv, operation op,
+void allreduce(allreduce_sendrecv *sendrecv, operation *op,
 	uint32_t msg_size);
 
 void mpi_common_init(int *argc, char ***argv);
