@@ -55,16 +55,11 @@ enum log_level {
 
 #define COMPILE_LOG_LEVEL	LOG_INFO
 
-uint8_t runtime_log_level;
+extern uint8_t runtime_log_level;
 
-static const char *level_names[] = {
-	"TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL"
-};
+extern const char *level_names[];
 
-static const char *level_colors[] = {
-	COLOR_DEFAULT, COLOR_CYAN, COLOR_BLUE,
-	COLOR_YELLOW, COLOR_RED, COLOR_MAGENTA
-};
+extern const char *level_colors[];
 
 void log_msg(enum log_level level, const char *fmt, ...);
 

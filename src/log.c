@@ -27,6 +27,15 @@
 
 uint8_t runtime_log_level = COMPILE_LOG_LEVEL;
 
+const char *level_names[] = {
+	"TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL"
+};
+
+const char *level_colors[] = {
+	COLOR_DEFAULT, COLOR_CYAN, COLOR_BLUE,
+	COLOR_YELLOW, COLOR_RED, COLOR_MAGENTA
+};
+
 void log_msg(enum log_level level, const char *fmt, ...)
 {
 	if (level < runtime_log_level)
