@@ -49,6 +49,8 @@ DLINK_FLAGS =
 DESTDIR = /
 # Install path (bin/ is appended automatically)
 INSTALL_PREFIX = usr/local
+# Additional files to clean
+ADD_CLEAN = $(wildcard smpitmp-* vgcore.*)
 #### END PROJECT SETTINGS ####
 
 # Optionally you may move the section above to a separate config.mk file, and
@@ -217,6 +219,8 @@ clean:
 	@echo "Deleting directories"
 	@$(RM) -r build
 	@$(RM) -r bin
+	@echo "Cleaning additional files"
+	@$(RM) $(ADD_CLEAN)
 
 # Main rule, checks the executable and symlinks to the output
 all: $(BIN_PATH)/$(BIN_NAME)
