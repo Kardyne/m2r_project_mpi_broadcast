@@ -3,4 +3,6 @@
 .debug_time
 bin/*
 build/*
-mpi_broadcast
+mpi_allreduce
+smpitmp-*
+vgcore.*
