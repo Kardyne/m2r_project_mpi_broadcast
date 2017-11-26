@@ -1,5 +1,9 @@
 #!/bin/sh
 
-python ./tools/generate_xml_ring_and_hostfile.py $1 ./hostfiles/ ./platforms/
+process_count=$1
+topology=$2
+shift; shift
 
-smpirun -np $1 -platform platforms/"$2"_"$1".xml -hostfile hostfiles/hostfile_"$1".txt ./mpi_allreduce $2
+python ./tools/generate_xml_ring_and_hostfile.py $process_count ./hostfiles/ ./platforms/
+
+smpirun -np $process_count -platform platforms/"${topology}_${process_count}".xml -hostfile hostfiles/hostfile_"$process_count".txt ./mpi_allreduce $topology $@
