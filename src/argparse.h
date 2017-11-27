@@ -28,6 +28,8 @@ struct arguments {
 	char *topology;
 	uint32_t msg_size;
 	uint32_t seed;
+	int32_t height;
+	int32_t width;
 	uint8_t quiet, verbose;
 };
 

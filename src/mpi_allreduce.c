@@ -41,19 +41,36 @@ void update_log_level(struct arguments *arguments)
 	}
 }
 
+void configure(struct arguments *arguments,
+	struct mpi_parameters *mpi_parameters)
+{
+	update_log_level(arguments);
+	mpi_parameters->msg_size = arguments->msg_size;
+	mpi_parameters->height = arguments->height;
+	mpi_parameters->width = arguments->width;
+	if(!strcmp(arguments->topology, "grid2d") &&
+			(mpi_parameters->width < 0 || arguments->height < 0) &&
+			!mpi_parameters->p_rank) {
+		log_msg(LOG_FATAL, "Width and height not correctly defined. Width=%d, height=%d", mpi_parameters->width, mpi_parameters->height);
+	}
+}
+
 int main(int argc, char **argv)
 {
+	struct mpi_parameters mpi_parameters = {0};
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &mpi_parameters.p_rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &mpi_parameters.p_count);
 	struct arguments arguments;
-	mpi_common_init(&argc, &argv);
 	argparse(argc, argv, &arguments);
-	update_log_level(&arguments);
-	srand(arguments.seed+rank);
-	if(!rank)
-		MPI_LOG(LOG_INFO, "Topology = [%s]", arguments.topology);
+	configure(&arguments, &mpi_parameters);
+	srand(arguments.seed+mpi_parameters.p_rank);
+	if(!mpi_parameters.p_rank)
+		log_msg(LOG_INFO, "Topology = [%s]", arguments.topology);
 	if(!strcmp(arguments.topology, "ring")) {
-		allreduce(ring_sendrecv, sum, arguments.msg_size);
-	} else if(!rank) {
-		MPI_LOG(LOG_ERROR, "[%s] topology not implmented, exiting.",
+		allreduce(&mpi_parameters, ring_sendrecv, sum);
+	} else if(!mpi_parameters.p_rank) {
+		log_msg(LOG_FATAL, "[%s] topology not implemented, exiting.",
 			arguments.topology);
 	}
 	MPI_Finalize();

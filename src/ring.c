@@ -23,10 +23,13 @@
 #include <mpi.h>
 #include <stdint.h>
 
-void ring_sendrecv(char* sendbuf, uint32_t sendcount,
-	char* recvbuf, uint32_t recvcount)
+void ring_sendrecv(struct mpi_parameters *mpi_parameters, char* sendbuf,
+	uint32_t sendcount, char* recvbuf, uint32_t recvcount)
 {
-	MPI_Sendrecv(sendbuf, sendcount, MPI_CHAR, (rank+1)%size, 0,
-		recvbuf, recvcount, MPI_CHAR, (rank+size-1)%size, 0,
+	MPI_Sendrecv(sendbuf, sendcount, MPI_CHAR,
+		(mpi_parameters->p_rank+1)%mpi_parameters->p_count, 0,
+		recvbuf, recvcount, MPI_CHAR,
+		(mpi_parameters->p_rank+mpi_parameters->p_count-1)
+			%mpi_parameters->p_count, 0,
 		MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 }

@@ -25,7 +25,7 @@
 #include "mpi_common.h"
 #include <stdint.h>
 
-void ring_sendrecv(char* sendbuf, uint32_t sendcount,
-	char* recvbuf, uint32_t recvcount);
+void ring_sendrecv(struct mpi_parameters *mpi_parameters, char* sendbuf,
+	uint32_t sendcount, char* recvbuf, uint32_t recvcount);
 
 #endif

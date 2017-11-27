@@ -43,6 +43,8 @@ static struct argp_option options[] = {
 	{0,          'n', "SIZE",  0,
 		"Broadcasts a message of SIZE bytes (default 0)", 0},
 	{"seed",     's', "SEED",  0, "Seed (default 0)", 0},
+	{"height",   'h', "HEIGHT",0, "[Grid - mandatory] Height", 0},
+	{"width",    'w', "WIDTH", 0, "[Grid - mandatory] Width", 0},
 	{"verbose",  'v', 0,       0, "Increase verbosity", 0},
 	{"quiet",    'q', 0,       0, "Decrease verbosity", 0},
 	{0}
@@ -61,6 +63,12 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
 		break;
 	case 's':
 		arguments->seed = atol(arg);
+		break;
+	case 'h':
+		arguments->height = atol(arg);
+		break;
+	case 'w':
+		arguments->width = atol(arg);
 		break;
   	case 'q':
     		arguments->quiet += 1;
@@ -99,6 +107,8 @@ int argparse(int argc, char **argv, struct arguments *arguments)
 	arguments->verbose = 0;
 	arguments->msg_size = 0;
 	arguments->seed = 0;
+	arguments->height = -1;
+	arguments->width = -1;
 
 	/* Parse our arguments; every option seen by parse_opt will be
    	reflected in arguments. */

@@ -23,23 +23,28 @@
 #define MPI_COMMON_H 1
 
 #include "log.h"
+#include <stdint.h>
 #include <sys/time.h>
 
-#define MPI_LOG(level, fmt, ...) \
-	log_msg(level, "(%02d) " fmt, rank, __VA_ARGS__)
+struct mpi_parameters {
+	int32_t p_rank;
+	int32_t p_count;
+	int32_t height;
+	int32_t width;
+	uint32_t msg_size;
+};
 
-int32_t rank, size;
+typedef void allreduce_sendrecv(struct mpi_parameters *mpi_parameters,
+	char* sendbuf, uint32_t sendcount, char* recvbuf, uint32_t recvcount);
 
-typedef void allreduce_sendrecv(char*, uint32_t, char*, uint32_t);
+typedef void operation(struct mpi_parameters *mpi_parameters,
+	char* result, char* array);
 
-typedef void operation(char*, char*, uint32_t msg_size);
+void sum(struct mpi_parameters *mpi_parameters,
+	char *result, char *array);
 
-void sum(char *result, char *array, uint32_t msg_size);
-
-void allreduce(allreduce_sendrecv *sendrecv, operation *op,
-	uint32_t msg_size);
-
-void mpi_common_init(int *argc, char ***argv);
+void allreduce(struct mpi_parameters *mpi_parameters,
+	allreduce_sendrecv *sendrecv, operation *op);
 
 void gen_random_stream(char *stream, uint32_t size);
 
