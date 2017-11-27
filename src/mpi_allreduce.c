@@ -48,10 +48,18 @@ void configure(struct arguments *arguments,
 	mpi_parameters->msg_size = arguments->msg_size;
 	mpi_parameters->height = arguments->height;
 	mpi_parameters->width = arguments->width;
-	if(!strcmp(arguments->topology, "grid2d") &&
-			(mpi_parameters->width < 0 || arguments->height < 0) &&
-			!mpi_parameters->p_rank) {
-		log_msg(LOG_FATAL, "Width and height not correctly defined. Width=%d, height=%d", mpi_parameters->width, mpi_parameters->height);
+	if(!strcmp(arguments->topology, "grid2d") && !mpi_parameters->p_rank) {
+		if(mpi_parameters->width < 0 || arguments->height < 0) {
+			log_msg(LOG_FATAL, "Width and height should be positive. Width=%d, height=%d", mpi_parameters->width, mpi_parameters->height);
+			exit(EXIT_FAILURE);
+		}
+		if(mpi_parameters->width * mpi_parameters->height != 
+				mpi_parameters->p_count) {
+			log_msg(LOG_FATAL, "Width*height!=processor count. Width*height=%d, processor count=%d",
+				mpi_parameters->width*mpi_parameters->height,
+				mpi_parameters->p_count);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
