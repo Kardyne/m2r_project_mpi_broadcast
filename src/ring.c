@@ -26,7 +26,7 @@
 void ring_allreduce(struct mpi_parameters *mpi_parameters, operation *op)
 {
 	char *sendbuf = malloc(mpi_parameters->msg_size);
-	gen_random_stream(sendbuf, mpi_parameters->msg_size);
+	gen_random_stream(mpi_parameters, sendbuf);
 	char *recvbuf = malloc(mpi_parameters->msg_size);
 	char *result = calloc(mpi_parameters->msg_size, sizeof(char));
 	for(int32_t i=0; i<mpi_parameters->p_count; i++) {
@@ -43,6 +43,7 @@ void ring_allreduce(struct mpi_parameters *mpi_parameters, operation *op)
 		sendbuf = recvbuf;
 		recvbuf = temp;
 	}
+	print_array(mpi_parameters, result);
 	free(sendbuf);
 	free(recvbuf);	
 }

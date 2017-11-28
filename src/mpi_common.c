@@ -27,10 +27,11 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-void print_result(char *result, uint32_t msg_size)
+void print_array(struct mpi_parameters *mpi_parameters, char *result)
 {
-	for(uint32_t i=0; i<msg_size; i++) {
-		log_msg(LOG_DEBUG, "[%d] = %d", i, result[i]);
+	for(uint32_t i=0; i<mpi_parameters->msg_size; i++) {
+		log_msg(LOG_DEBUG, "(%02d) [%d] = %d",
+			mpi_parameters->p_rank, i, result[i]);
 	}
 }
 
@@ -42,11 +43,13 @@ void sum(struct mpi_parameters *mpi_parameters,
 	}
 }
 
-void gen_random_stream(char *stream, uint32_t size)
+void gen_random_stream(struct mpi_parameters *mpi_parameters, char *stream)
 {
-	log_msg(LOG_DEBUG, "Generating random bytestream of size %lu", size);
-	for(uint32_t i=0; i<size; i++) {
+	log_msg(LOG_DEBUG, "(%02d) Generating random bytestream of size %lu",
+		mpi_parameters->p_rank, mpi_parameters->msg_size);
+	for(uint32_t i=0; i<mpi_parameters->msg_size; i++) {
 		stream[i] = rand();
 	}
-	log_msg(LOG_TRACE, "Generated : [ %s ]", stream);
+	log_msg(LOG_TRACE, "(%02d) Generated : [ %s ]",
+		mpi_parameters->p_rank, stream);
 }

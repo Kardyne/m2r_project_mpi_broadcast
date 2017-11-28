@@ -39,7 +39,9 @@ typedef void operation(struct mpi_parameters *mpi_parameters,
 
 void sum(struct mpi_parameters *mpi_parameters,
 	char *result, char *array);
-	
-void gen_random_stream(char *stream, uint32_t size);
+
+void gen_random_stream(struct mpi_parameters *mpi_parameters, char *stream);
+
+void print_array(struct mpi_parameters *mpi_parameters, char *result);
 
 #endif
