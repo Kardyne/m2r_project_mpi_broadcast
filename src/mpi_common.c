@@ -30,7 +30,7 @@
 void print_array(struct mpi_parameters *mpi_parameters, char *result)
 {
 	for(uint32_t i=0; i<mpi_parameters->msg_size; i++) {
-		log_msg(LOG_DEBUG, "(%02d) [%d] = %d",
+		log_msg(LOG_TRACE, "(%02d) [%d] = %d",
 			mpi_parameters->p_rank, i, result[i]);
 	}
 }

@@ -31,7 +31,8 @@ void ring_allreduce(struct mpi_parameters *mpi_parameters, operation *op)
 	char *result = calloc(mpi_parameters->msg_size, sizeof(char));
 	for(int32_t i=0; i<mpi_parameters->p_count; i++) {
 		if(!mpi_parameters->p_rank)
-			log_msg(LOG_DEBUG, "All reduce step %d", i);
+			log_msg(LOG_DEBUG, "All reduce step %d/%d",
+				i, mpi_parameters->p_count-1);
 		MPI_Sendrecv(sendbuf, mpi_parameters->msg_size, MPI_CHAR,
 			(mpi_parameters->p_rank+1)%mpi_parameters->p_count, 0,
 			recvbuf, mpi_parameters->msg_size, MPI_CHAR,
