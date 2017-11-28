@@ -23,6 +23,30 @@
 #include <mpi.h>
 #include <stdint.h>
 
+void ring_allreduce(struct mpi_parameters *mpi_parameters, operation *op)
+{
+	char *sendbuf = malloc(mpi_parameters->msg_size);
+	gen_random_stream(sendbuf, mpi_parameters->msg_size);
+	char *recvbuf = malloc(mpi_parameters->msg_size);
+	char *result = calloc(mpi_parameters->msg_size, sizeof(char));
+	for(int32_t i=0; i<mpi_parameters->p_count; i++) {
+		if(!mpi_parameters->p_rank)
+			log_msg(LOG_DEBUG, "All reduce step %d", i);
+		MPI_Sendrecv(sendbuf, mpi_parameters->msg_size, MPI_CHAR,
+			(mpi_parameters->p_rank+1)%mpi_parameters->p_count, 0,
+			recvbuf, mpi_parameters->msg_size, MPI_CHAR,
+			(mpi_parameters->p_rank+mpi_parameters->p_count-1)
+				%mpi_parameters->p_count, 0,
+			MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		op(mpi_parameters, result, sendbuf);
+		char *temp = sendbuf;
+		sendbuf = recvbuf;
+		recvbuf = temp;
+	}
+	free(sendbuf);
+	free(recvbuf);	
+}
+
 void ring_sendrecv(struct mpi_parameters *mpi_parameters, char* sendbuf,
 	uint32_t sendcount, char* recvbuf, uint32_t recvcount)
 {
