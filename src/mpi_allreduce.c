@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 	if(!mpi_parameters.p_rank)
 		log_msg(LOG_INFO, "Topology = [%s]", arguments.topology);
 	if(!strcmp(arguments.topology, "ring")) {
-		allreduce(&mpi_parameters, ring_sendrecv, sum);
+		ring_allreduce(&mpi_parameters, sum);
 	} else if(!mpi_parameters.p_rank) {
 		log_msg(LOG_FATAL, "[%s] topology not implemented, exiting.",
 			arguments.topology);

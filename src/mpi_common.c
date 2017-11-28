@@ -34,50 +34,12 @@ void print_result(char *result, uint32_t msg_size)
 	}
 }
 
-double timeval_diff_s(struct timeval *tv1, struct timeval *tv2)
-{
-	return (double) (tv2->tv_usec - tv1->tv_usec) / 1000000 +
-		(double) (tv2->tv_sec - tv1->tv_sec);
-}
-
 void sum(struct mpi_parameters *mpi_parameters,
 	char *result, char *array)
 {
 	for(uint32_t i=0; i<mpi_parameters->msg_size; i++) {
 		result[i] += array[i];
 	}
-}
-
-void allreduce(struct mpi_parameters *mpi_parameters,
-	allreduce_sendrecv *sendrecv, operation *op)
-{
-	if(mpi_parameters->p_rank<0)
-		return;
-	if(!mpi_parameters->p_rank) {
-		log_msg(LOG_INFO, "Message size: %d", mpi_parameters->msg_size);
-		log_msg(LOG_INFO, "Processor count: %d", mpi_parameters->p_count);
-	}
-	struct timeval tv1, tv2;
-	char *sendbuf = malloc(mpi_parameters->msg_size);
-	gen_random_stream(sendbuf, mpi_parameters->msg_size);
-	char *recvbuf = malloc(mpi_parameters->msg_size);
-	char *result = calloc(mpi_parameters->msg_size, sizeof(char));
-	for(int32_t i=0; i<mpi_parameters->p_count; i++) {
-		gettimeofday(&tv1, NULL);
-		sendrecv(mpi_parameters,
-			sendbuf, mpi_parameters->msg_size,
-			recvbuf, mpi_parameters->msg_size);
-		gettimeofday(&tv2, NULL);
-		printf("%d, %d, %f\n",
-			mpi_parameters->p_rank, i, timeval_diff_s(&tv1, &tv2));
-		op(mpi_parameters, result, sendbuf);
-		char *temp = sendbuf;
-		sendbuf = recvbuf;
-		recvbuf = temp;
-	}
-	print_result(result, mpi_parameters->msg_size);
-	free(sendbuf);
-	free(recvbuf);
 }
 
 void gen_random_stream(char *stream, uint32_t size)

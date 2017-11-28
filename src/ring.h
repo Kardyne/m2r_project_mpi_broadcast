@@ -27,7 +27,4 @@
 
 void ring_allreduce(struct mpi_parameters *mpi_parameters, operation *op);
 
-void ring_sendrecv(struct mpi_parameters *mpi_parameters, char* sendbuf,
-	uint32_t sendcount, char* recvbuf, uint32_t recvcount);
-
 #endif

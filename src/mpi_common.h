@@ -34,18 +34,12 @@ struct mpi_parameters {
 	uint32_t msg_size;
 };
 
-typedef void allreduce_sendrecv(struct mpi_parameters *mpi_parameters,
-	char* sendbuf, uint32_t sendcount, char* recvbuf, uint32_t recvcount);
-
 typedef void operation(struct mpi_parameters *mpi_parameters,
 	char* result, char* array);
 
 void sum(struct mpi_parameters *mpi_parameters,
 	char *result, char *array);
-
-void allreduce(struct mpi_parameters *mpi_parameters,
-	allreduce_sendrecv *sendrecv, operation *op);
-
+	
 void gen_random_stream(char *stream, uint32_t size);
 
 #endif
