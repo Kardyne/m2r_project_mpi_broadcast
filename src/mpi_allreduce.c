@@ -82,5 +82,5 @@ int main(int argc, char **argv)
 			arguments.topology);
 	}
 	MPI_Finalize();
-	exit(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
