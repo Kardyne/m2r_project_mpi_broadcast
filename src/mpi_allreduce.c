@@ -73,8 +73,12 @@ int main(int argc, char **argv)
 	argparse(argc, argv, &arguments);
 	configure(&arguments, &mpi_parameters);
 	srand(arguments.seed+mpi_parameters.p_rank);
-	if(!mpi_parameters.p_rank)
-		log_msg(LOG_INFO, "Topology = [%s]", arguments.topology);
+	if(!mpi_parameters.p_rank) {
+		log_msg(LOG_INFO, "Topology: [%s]", arguments.topology);
+		log_msg(LOG_INFO, "Message size: %d", mpi_parameters.msg_size);
+		log_msg(LOG_INFO, "Processor count: %d",
+			mpi_parameters.p_count);
+	}
 	if(!strcmp(arguments.topology, "ring")) {
 		ring_allreduce(&mpi_parameters, sum);
 	} else if(!mpi_parameters.p_rank) {
