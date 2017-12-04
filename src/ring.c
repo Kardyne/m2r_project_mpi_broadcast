@@ -22,14 +22,17 @@
 #include "mpi_common.h"
 #include <mpi.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 void ring_allreduce(struct mpi_parameters *mpi_parameters, operation *op)
 {
 	char *sendbuf = malloc(mpi_parameters->msg_size);
 	gen_random_stream(mpi_parameters, sendbuf);
 	char *recvbuf = malloc(mpi_parameters->msg_size);
-	char *result = calloc(mpi_parameters->msg_size, sizeof(char));
-	for(int32_t i=0; i<mpi_parameters->p_count; i++) {
+	char *result = malloc(mpi_parameters->msg_size);
+	memcpy(result, sendbuf, mpi_parameters->msg_size);
+	for(int32_t i=0; i<mpi_parameters->p_count-1; i++) {
 		if(!mpi_parameters->p_rank)
 			log_msg(LOG_DEBUG, "All reduce step %d/%d",
 				i, mpi_parameters->p_count-1);
@@ -39,7 +42,7 @@ void ring_allreduce(struct mpi_parameters *mpi_parameters, operation *op)
 			(mpi_parameters->p_rank+mpi_parameters->p_count-1)
 				%mpi_parameters->p_count, 0,
 			MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-		op(mpi_parameters, result, sendbuf);
+		op(mpi_parameters, result, recvbuf);
 		char *temp = sendbuf;
 		sendbuf = recvbuf;
 		recvbuf = temp;
