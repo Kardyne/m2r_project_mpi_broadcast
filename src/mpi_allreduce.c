@@ -23,6 +23,7 @@
 #include "log.h"
 #include "mpi_common.h"
 #include "ring.h"
+#include "grid2d.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -85,6 +86,8 @@ int main(int argc, char **argv)
 	}
 	if(!strcmp(arguments.topology, "ring")) {
 		ring_allreduce(&mpi_parameters, sum);
+	} else if(!strcmp(arguments.topology, "grid2d")) {
+		grid2d_allreduce(&mpi_parameters, sum);
 	} else if(!mpi_parameters.p_rank) {
 		log_msg(LOG_FATAL, "[%s] topology not implemented, exiting.",
 			arguments.topology);
