@@ -26,7 +26,7 @@ def issueHead():
                        "<prop id=\"smpi/running-power\" value=\"200000000000\"></prop>\n"
                        "</config>\n\n")
 
-        AS_head = "<AS id=\"AS0\" routing=\"Full\">\n"
+        AS_head = "<AS id=\"AS0\" routing=\"Dijkstra\">\n"
 
         return head + config_clause + AS_head
 
@@ -35,7 +35,7 @@ def issueTail():
 	return "</AS>\n</platform>\n"
 
 def issueLink(x1, y1, x2, y2):
-	return "  link id=\"link-"+str(x1)+","+str(y1)+"-"+str(x2)+","+str(y2)+"\" latency=\""+str(link_latency)+"\" bandwidth=\""+str(link_bandwidth)+link_bandwidth_unit+"\"/>\n"
+	return "  <link id=\"link-"+str(x1)+","+str(y1)+"-"+str(x2)+","+str(y2)+"\" latency=\""+str(link_latency)+"\" bandwidth=\""+str(link_bandwidth)+link_bandwidth_unit+"\"/>\n"
 
 def issueLink3(x, y, bw):
 	return "  <link id=\"link-"+str(x)+"-"+str(y)+"\" latency=\""+str(link_latency)+"\" bandwidth=\""+str(bw)+link_bandwidth_unit+"\"/>\n"
