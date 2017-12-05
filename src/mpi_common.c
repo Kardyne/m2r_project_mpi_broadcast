@@ -61,4 +61,7 @@ void allreduce(struct mpi_parameters *mpi_parameters, MPI_Op op)
 	char *recvbuf = malloc(mpi_parameters->msg_size);
 	MPI_Allreduce(sendbuf, recvbuf, mpi_parameters->msg_size, MPI_CHAR,
 			op, MPI_COMM_WORLD);
+	print_array(mpi_parameters, sendbuf);
+	free(sendbuf);
+	free(recvbuf);
 }
