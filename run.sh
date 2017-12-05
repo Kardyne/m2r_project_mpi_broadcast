@@ -73,6 +73,7 @@ parse_arguments() {
                 process_count="$2"
                 topology="$3"
 				shift 3
+				bin_args="$@"
 				break
 				;;
 			*)
@@ -117,7 +118,6 @@ main() {
     fi
 	check_dependencies getopt printf smpirun column
 	parse_arguments $@
-    shift; shift; shift;
 
     case "$topology" in
     "ring")
@@ -125,14 +125,14 @@ main() {
         smpirun -np $process_count \
             -platform "platforms/${topology}_${process_count}.xml" \
             -hostfile "hostfiles/hostfile_$process_count.txt" \
-            ./mpi_allreduce $topology $@
+            ./mpi_allreduce $topology -w $width -h $height $bin_args
         ;;
     "grid2d")
         $python_bin ./tools/generate_xml_grid_and_hostfile.py $height $width ./hostfiles/ ./platforms/
         smpirun -np $process_count \
             -platform "platforms/grid_${height}_${width}.xml" \
             -hostfile "hostfiles/grid_hostfile_${height},${width}.txt" \
-            ./mpi_allreduce $topology $@
+            ./mpi_allreduce $topology -w $width -h $height $bin_args
         ;;
     *)
         printf "Topology %s not implemented. Exiting.\n" "$topology"
