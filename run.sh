@@ -23,7 +23,7 @@ getopt_test() {
 
 getopt_parse() {
 	getopt_test
-	SHORT=w:h:
+	SHORT=w:h:d
 	LONG=np:,width:,height:,help
 	getopt --options $SHORT --longoptions $LONG --name "$0" -- "$@"
 	if [[ $? -ne 0 ]]; then
@@ -34,6 +34,7 @@ getopt_parse() {
 
 parse_arguments() {
 	help_opt=0
+	default_opt=0
 	eval set -- "$(getopt_parse $@)"
 	while true; do
 		case "$1" in
@@ -61,6 +62,10 @@ parse_arguments() {
 				height="$2"
 				shift 2
 				;;
+			-d)
+				default_opt=1
+				shift
+				;;
 			--help)
 				help_opt=1
 				shift
@@ -87,6 +92,8 @@ parse_arguments() {
 
 check_arguments() {
 	[[ $help_opt -eq 1 ]] && display_usage && exit 0
+	bin_topology="$topology"
+	[[ $default_opt -eq 1 ]] && bin_topology=""
     [[ -z "$topology" ]] && printf "Topology is mandatory.\n" && exit 1
 	[[ -z "$process_count" ]] && printf "Process count is mandatory.\n" && exit 1
     if [[ "$topology" == "grid2d" ]]; then
@@ -100,6 +107,7 @@ print_usage() {
 	printf " --np, <count>\tNumber of processors (mandatory)\n"
     printf " -w, --width, <num>\tWidth (only for grid)\n"
     printf " -h, --height, <num>\tHeight (only for grid)\n"
+	printf " -d \tUse the default MPI_Allreduce call\n"
     printf " -- \tAll options after this will be passed to the mpi_allreduce program\n"
 	printf " --help \tPrint this message\n"
 }
@@ -125,14 +133,14 @@ main() {
         smpirun -np $process_count \
             -platform "platforms/${topology}_${process_count}.xml" \
             -hostfile "hostfiles/hostfile_$process_count.txt" \
-            ./mpi_allreduce $topology -w $width -h $height $bin_args
+            ./mpi_allreduce $bin_topology -w $width -h $height $bin_args
         ;;
     "grid2d")
         $python_bin ./tools/generate_xml_grid_and_hostfile.py $height $width ./hostfiles/ ./platforms/
         smpirun -np $process_count \
             -platform "platforms/grid_${height}_${width}.xml" \
             -hostfile "hostfiles/grid_hostfile_${height},${width}.txt" \
-            ./mpi_allreduce $topology -w $width -h $height $bin_args
+            ./mpi_allreduce $bin_topology -w $width -h $height $bin_args
         ;;
     *)
         printf "Topology %s not implemented. Exiting.\n" "$topology"
