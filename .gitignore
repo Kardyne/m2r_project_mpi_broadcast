@@ -6,3 +6,5 @@ build/*
 mpi_allreduce
 smpitmp-*
 vgcore.*
+hostfiles/*
+platforms/*
