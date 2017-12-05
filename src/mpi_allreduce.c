@@ -89,8 +89,9 @@ int main(int argc, char **argv)
 	} else if(!strcmp(arguments.topology, "grid2d")) {
 		grid2d_allreduce(&mpi_parameters, sum);
 	} else if(!mpi_parameters.p_rank) {
-		log_msg(LOG_FATAL, "[%s] topology not implemented, exiting.",
+		log_msg(LOG_INFO, "[%s] topology, using MPI default call.",
 			arguments.topology);
+		allreduce(&mpi_parameters, MPI_SUM);
 	}
 	MPI_Finalize();
 	return EXIT_SUCCESS;
