@@ -26,7 +26,7 @@ def issueHead():
                        "<prop id=\"smpi/running-power\" value=\"200000000000\"></prop>\n"
                        "</config>\n\n")
 
-        AS_head = "<AS id=\"AS0\" routing=\"Full\">\n"
+        AS_head = "<AS id=\"AS0\" routing=\"Dijkstra\">\n"
 
         return head + config_clause + AS_head
 
@@ -84,11 +84,9 @@ for i in range(0,num_hosts):
 
 # Create routes
 for i in range (0,num_hosts):
-	for j in range(i+1,num_hosts):
-		fh.write(issueRouteHead(i,j))
-		for k in range(i,(j+num_hosts)%num_hosts):
-  			fh.write(issueRouteLink1(k))
-    		fh.write(issueRouteTail())
+	fh.write(issueRouteHead(i,(i+1)%num_hosts))
+	fh.write(issueRouteLink1(i))
+	fh.write(issueRouteTail())
 
 fh.write(issueTail())
 fh.close()
