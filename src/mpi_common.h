@@ -25,6 +25,7 @@
 #include "log.h"
 #include <stdint.h>
 #include <sys/time.h>
+#include <mpi.h>
 
 struct mpi_parameters {
 	int32_t p_rank;
@@ -43,5 +44,7 @@ void sum(struct mpi_parameters *mpi_parameters,
 void gen_random_stream(struct mpi_parameters *mpi_parameters, char *stream);
 
 void print_array(struct mpi_parameters *mpi_parameters, char *result);
+
+void allreduce(struct mpi_parameters *mpi_parameters, MPI_Op op);
 
 #endif

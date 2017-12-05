@@ -53,3 +53,12 @@ void gen_random_stream(struct mpi_parameters *mpi_parameters, char *stream)
 	log_msg(LOG_TRACE, "(%02d) Generated : [ %s ]",
 		mpi_parameters->p_rank, stream);
 }
+
+void allreduce(struct mpi_parameters *mpi_parameters, MPI_Op op)
+{
+	char *sendbuf = malloc(mpi_parameters->msg_size);
+	gen_random_stream(mpi_parameters, sendbuf);
+	char *recvbuf = malloc(mpi_parameters->msg_size);
+	MPI_Allreduce(sendbuf, recvbuf, mpi_parameters->msg_size, MPI_CHAR,
+			op, MPI_COMM_WORLD);
+}
