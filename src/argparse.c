@@ -77,7 +77,7 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
     		arguments->verbose += 1;
     		break;
   	case ARGP_KEY_NO_ARGS:
-		argp_usage(state);
+		arguments->topology = "default";
 		break;    
   	case ARGP_KEY_ARG:
 		/* Here we know that state->arg_num == 0, since we
