@@ -26,7 +26,7 @@ def issueHead():
                        "<prop id=\"smpi/running-power\" value=\"200000000000\"></prop>\n"
                        "</config>\n\n")
 
-        AS_head = "<AS id=\"AS0\" routing=\"Dijkstra\">\n"
+        AS_head = "<AS id=\"AS0\" routing=\"Floyd\">\n"
 
         return head + config_clause + AS_head
 

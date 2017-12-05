@@ -26,31 +26,30 @@ def issueHead():
                        "<prop id=\"smpi/running-power\" value=\"200000000000\"></prop>\n"
                        "</config>\n\n")
 
-        AS_head = "<AS id=\"AS0\" routing=\"Dijkstra\">\n"
+        AS_head = "<zone id=\"AS0\" routing=\"Floyd\">\n"
 
         return head + config_clause + AS_head
 
-
 def issueTail():
-	return "</AS>\n</platform>\n"
+	return "</zone>\n</platform>\n"
 
 def issueLink(x1, y1, x2, y2):
-	return "  <link id=\"link-"+str(x1)+","+str(y1)+"-"+str(x2)+","+str(y2)+"\" latency=\""+str(link_latency)+"\" bandwidth=\""+str(link_bandwidth)+link_bandwidth_unit+"\"/>\n"
+	return "  <link id=\"link-r"+str(x1)+"c"+str(y1)+"-r"+str(x2)+"c"+str(y2)+"\" latency=\""+str(link_latency)+"\" bandwidth=\""+str(link_bandwidth)+link_bandwidth_unit+"\"/>\n"
 
 def issueLink3(x, y, bw):
-	return "  <link id=\"link-"+str(x)+"-"+str(y)+"\" latency=\""+str(link_latency)+"\" bandwidth=\""+str(bw)+link_bandwidth_unit+"\"/>\n"
+	return "  <link id=\"link-r"+str(x)+"c"+str(y)+"\" latency=\""+str(link_latency)+"\" bandwidth=\""+str(bw)+link_bandwidth_unit+"\"/>\n"
 
 def issueHost(index1, index2):
-	return "  <host id=\"host-"+str(index1)+","+str(index2)+".hawaii.edu\" speed=\"200Gf\"/>\n"
+	return "  <host id=\"host-r"+str(index1)+"c"+str(index2)+".hawaii.edu\" speed=\"200Gf\"/>\n"
 
 def issueRouteHead(x1, y1, x2, y2):
-	return "  <route src=\"host-"+str(x1)+","+str(y1)+".hawaii.edu\" dst=\"host-"+str(x2)+","+str(y2)+".hawaii.edu\">\n"
+	return "  <route src=\"host-r"+str(x1)+"c"+str(y1)+".hawaii.edu\" dst=\"host-r"+str(x2)+"c"+str(y2)+".hawaii.edu\">\n"
 
 def issueRouteTail():
 	return "  </route>\n"
 
 def issueRouteLink(x1, y1, x2, y2):
-	return "\t<link_ctn id=\"link-"+str(x1)+","+str(y1)+"-"+str(x2)+","+str(y2)+"\"/>\n"
+	return "\t<link_ctn id=\"link-r"+str(x1)+"c"+str(y1)+"-r"+str(x2)+"c"+str(y2)+"\"/>\n"
 
 ######################################################################
 # Parse command-line arguments
@@ -106,7 +105,7 @@ fh = open(filename, 'w')
 
 for i in range(0,num_rows):
 	for j in range(0,num_columns):
-		fh.write("host-"+str(i)+","+str(j)+".hawaii.edu\n")
+		fh.write("host-r"+str(i)+"c"+str(j)+".hawaii.edu\n")
 
 fh.close()
 print >> sys.stderr, "Hostfile created: "+filename
