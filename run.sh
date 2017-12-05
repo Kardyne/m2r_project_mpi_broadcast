@@ -88,7 +88,7 @@ parse_arguments() {
 				;;
 			--)
                 if ! is_integer "$3"; then
-					printf "$2 is not a number\n"
+					printf "$3 is not a number\n"
 					exit 1
 				fi
                 topology="$2"
@@ -151,8 +151,8 @@ main() {
     "ring")
         $python_bin ./tools/generate_xml_ring_and_hostfile.py \
 			$process_count ./hostfiles/ ./platforms/ \
-			-b "$bandwidth" -l "$latency"
-        smpirun -np $process_count \
+			"$bandwidth" "$latency"
+        smpirun -trace -np $process_count \
             -platform "platforms/${topology}_${process_count}.xml" \
             -hostfile "hostfiles/hostfile_$process_count.txt" \
             ./mpi_allreduce $bin_topology -w $width -h $height $bin_args
@@ -160,8 +160,8 @@ main() {
     "grid2d")
         $python_bin ./tools/generate_xml_grid_and_hostfile.py \
 			$height $width ./hostfiles/ ./platforms/ \
-			-b "$bandwidth" -l "$latency"
-        smpirun -np $process_count \
+			"$bandwidth" "$latency"
+        smpirun -trace -np $process_count \
             -platform "platforms/grid_${height}_${width}.xml" \
             -hostfile "hostfiles/grid_hostfile_${height},${width}.txt" \
             ./mpi_allreduce $bin_topology -w $width -h $height $bin_args

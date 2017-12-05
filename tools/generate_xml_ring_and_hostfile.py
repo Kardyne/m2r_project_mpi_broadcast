@@ -4,9 +4,7 @@ import os
 import math
 
 # Link parameters
-link_latency = "10us"
-link_bandwidth = 10
-link_bandwidth_unit = "Gbps"
+link_bandwidth_unit = "MBps"
 
 # XML generation functions
 def issueHead():
@@ -59,7 +57,7 @@ def issueRouteLink2(x,y):
 
 ######################################################################
 # Parse command-line arguments
-if (len(sys.argv) != 4):
+if (len(sys.argv) != 6):
 	print >> sys.stderr, "Usage:a"+sys.argv[0]+" <num hosts>\n"
 	print >> sys.stderr, "  Will generate a ring_<num hosts>.xml and hostfile_<num hosts>.txt file\n"
 	exit(1)
@@ -67,6 +65,8 @@ if (len(sys.argv) != 4):
 num_hosts = int(sys.argv[1])
 host_path = sys.argv[2]
 platform_path = sys.argv[3]
+link_bandwidth = int(sys.argv[4])
+link_latency = sys.argv[5]+"us"
 
 ###############################################################
 # Generate RING XML file

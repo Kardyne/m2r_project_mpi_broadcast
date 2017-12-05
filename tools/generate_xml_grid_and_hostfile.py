@@ -4,9 +4,7 @@ import os
 import math
 
 # Link parameters
-link_latency = "10us"
-link_bandwidth = 10
-link_bandwidth_unit = "Gbps"
+link_bandwidth_unit = "MBps"
 
 # XML generation functions
 def issueHead():
@@ -53,7 +51,7 @@ def issueRouteLink(x1, y1, x2, y2):
 
 ######################################################################
 # Parse command-line arguments
-if (len(sys.argv) != 5):
+if (len(sys.argv) != 7):
 	print >> sys.stderr, "Usage:a"+sys.argv[0]+" <num hosts>\n"
 	print >> sys.stderr, "  Will generate a grid_<num hosts>.xml and grid_hostfile_<num hosts>.txt file\n"
 	exit(1)
@@ -63,6 +61,8 @@ num_columns = int(sys.argv[2])
 num_hosts = num_rows*num_columns
 host_path = sys.argv[3]
 platform_path = sys.argv[4]
+link_bandwidth = int(sys.argv[5])
+link_latency = sys.argv[6]+"us"
 
 ###############################################################
 # Generate GRID XML file
