@@ -13,4 +13,10 @@ explain the differences encountered.
 Usage:
 
 Compile with make debug or make release
-Execute with run.sh number_of_hosts topology
+Use the run.sh script to execute an experiment.
+Please refer to the script usage for more information (run.sh --help)
+To run all designed experiments, use experiment.sh.
+
+
+The generated data of all run tests can be found at:
+https://github.com/Kardyne/m2r_project_mpi_broadcast_data
