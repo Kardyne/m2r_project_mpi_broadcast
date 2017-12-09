@@ -42,12 +42,12 @@ plot_time_comm <- function(topology, bandwidth, latency){
     color2 = "green"
     y1 = times_procs_default[i]
     y2 = times_procs_alg[i]
-    plot(sizes[8:14], unlist(times_procs_default[i])[8:14],col=color2,ylim=range(c(y1,y2)),
+    plot(sizes[8:11], unlist(times_procs_default[i])[8:11],col=color2,ylim=range(c(y1,y2)),
          main=graph_title, xlab="Message size (bytes)", ylab="Time taken (seconds)",
          sub = sprintf("latency = %d us bandwidth = %d Mb/s", latency, bandwidth))
-    lines(sizes[8:14], unlist(times_procs_default[i])[8:14], type="l",col=color2)
-    points(sizes[8:14], unlist(times_procs_alg[i])[8:14],col=color1)
-    lines(sizes[8:14], unlist(times_procs_alg[i])[8:14], type="l",col=color1)
+    lines(sizes[8:11], unlist(times_procs_default[i])[8:11], type="l",col=color2)
+    points(sizes[8:11], unlist(times_procs_alg[i])[8:11],col=color1)
+    lines(sizes[8:11], unlist(times_procs_alg[i])[8:11], type="l",col=color1)
     legend(x = "topleft", legend=c("Optimized algorithm", "MPI_ALLREDUCE"),
            col=c("red", "green"), lty=1:2, cex=0.8)
   }
