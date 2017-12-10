@@ -15,7 +15,7 @@ plot_time_comm <- function(topology, bandwidth, latency){
     for(size in sizes){
       for(option in c("-d", "")){
         file_name_start = paste("./processed_data/smpi_simgrid_", topology, sep = "")
-        file_name_end = sprintf("_%d_%d_%d_%d", bandwidth, latency, proc, size)
+        file_name_end = sprintf("_%d_%d_%d_%d", latency, bandwidth, proc, size)
         file_name = paste(file_name_start, file_name_end, sep = "")
         file_name = paste(file_name, option, ".csv", sep = "")
         df_link = read.csv(file_name, header=F, strip.white=T)
